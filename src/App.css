@@ -1,0 +1,33 @@
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: #85add6;
+}
+.post-section {
+  width: 85%;
+
+  & ol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  & li {
+    background-color: #212f3c;
+    padding: 10px;
+    margin-top: 20px;
+    color: whitesmoke;
+    list-style-position: inside;
+    border-left: 0.2rem solid #fff;
+  }
+}
