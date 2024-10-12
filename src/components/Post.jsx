@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { deletePost, getPost } from "../api/PostAPI";
+import { Form } from "./Form";
 
 export const Post = () => {
   const [data, setData] = useState([]);
@@ -35,6 +36,11 @@ export const Post = () => {
   };
 
   return (
+    <>
+    <section>
+      <Form data={data} setData={setData}/>
+    </section>
+
     <section className="post-section">
       <ol>
         {data.map((currentElement) => {
@@ -50,5 +56,7 @@ export const Post = () => {
         })}
       </ol>
     </section>
+    </>
   );
 };
+
