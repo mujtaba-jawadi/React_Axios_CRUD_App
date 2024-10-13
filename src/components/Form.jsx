@@ -1,12 +1,22 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postData } from "../api/PostAPI";
 
-export const Form = ({ data, setData }) => {
+export const Form = ({ data, setData, updateApiData, setUpdateApiData }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: "",
   });
+  
+
+  useEffect(() => {
+    updateApiData && setAddData({
+      title: updateApiData.title || "",
+      body: updateApiData.body || ""
+    })
+    
+  }, [updateApiData])
+  
 
   const handleFormInput = (e) => {
     const name = e.target.name;
