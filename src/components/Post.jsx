@@ -9,7 +9,6 @@ export const Post = () => {
   // Get Post Method
   const getPostData = async () => {
     const res = await getPost();
-    console.log(res.data);
     setData(res.data);
   };
   useEffect(() => {

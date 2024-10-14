@@ -1,23 +1,21 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { postData } from "../api/PostAPI";
+import { postData, updateData } from "../api/PostAPI";
 
 export const Form = ({ data, setData, updateApiData, setUpdateApiData }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: "",
   });
-  
+
+  let isEmpty = Object.keys(updateApiData).length === 0;
 
   useEffect(() => {
-    updateApiData && setAddData({
-      title: updateApiData.title || "",
-      body: updateApiData.body || ""
-    })
-    
-  }, [updateApiData])
-  
+    updateApiData &&
+      setAddData({
+        title: updateApiData.title || "",
+        body: updateApiData.body || "",
+      });
+  }, [updateApiData]);
 
   const handleFormInput = (e) => {
     const name = e.target.name;
@@ -33,19 +31,48 @@ export const Form = ({ data, setData, updateApiData, setUpdateApiData }) => {
 
   const addPostData = async () => {
     const res = await postData(addData);
-    console.log(res);
+    // console.log(res);
     if (res.status === 201) {
       setData([...data, res.data]);
       setAddData({
-         title: "",
-         body: ""
-      })
+        title: "",
+        body: "",
+      });
+    }
+  };
+
+  const updatePostData = async () => {
+    try {
+      const res = await updateData(updateApiData.id, addData);
+      // console.log(res);
+
+      if (res.status === 200) {
+        setData((previousData) => {
+          return previousData.map((currentElement) => {
+            return currentElement.id === res.data.id
+              ? res.data
+              : currentElement;
+          });
+        });
+      }
+      setAddData({
+        title: "",
+        body: "",
+      });
+      setUpdateApiData({});
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    addPostData();
+    const action = e.nativeEvent.submitter.value;
+    if (action === "Add") {
+      addPostData();
+    } else if (action === "Update") {
+      updatePostData();
+    }
   };
 
   return (
@@ -74,7 +101,9 @@ export const Form = ({ data, setData, updateApiData, setUpdateApiData }) => {
           onChange={handleFormInput}
         />
       </div>
-      <button type="submit">Add</button>
+      <button type="submit" value={isEmpty ? "Add" : "Update"}>
+        {isEmpty ? "Add" : "Update"}
+      </button>
     </form>
   );
 };

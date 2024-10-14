@@ -1,10 +1,10 @@
 import { Post } from "./components/Post";
-import "./App.css"
+import "./App.css";
 
 export const App = () => {
   return (
     <section className="main-section">
-      <Post/>
+      <Post />
     </section>
   );
 };
